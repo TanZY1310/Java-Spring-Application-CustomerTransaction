@@ -16,7 +16,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 //    custom query to search customer search by customer ID or account number(s) or description
     Page<Customer> findAll(Pageable pageable);
     Page<Customer> findByCustID(Long custID, Pageable pageable);
-//    Page<Customer> findByAcc_number(Long accNumber, Pageable pageable); --> error could not found property
     Page<Customer> findByDescription(String description, Pageable pageable);
 
 }

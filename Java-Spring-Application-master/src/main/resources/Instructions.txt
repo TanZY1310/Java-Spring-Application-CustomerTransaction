@@ -20,5 +20,6 @@ b. Search based on description (Have to follow exactly as stored in database eg:
 Can also filter by page number and the number of items listed
 eg: http://localhost:8080/batch/customers/searchid?custID=222&page=2&size=10 (will list out 10 items with custID-222 on page 2)
 
+5. Access UI page - http://localhost:8080
 
 

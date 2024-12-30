@@ -1,10 +1,6 @@
 // Base URL for the API
 const BASE_URL = "http://localhost:8080/batch/customers";
 
-// Pagination variables
-//let currentPage = 0;
-//let totalPages = 1;  // Initialize total pages as 1 to start
-
 //Function to display all customer transactions
 async function displayAllCustomer(page) {
     const resultsDiv = document.getElementById('results');
