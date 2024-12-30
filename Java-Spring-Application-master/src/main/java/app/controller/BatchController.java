@@ -54,19 +54,19 @@ public class BatchController {
 
     @GetMapping("/customers")
     Page<Customer> customersPageable (Pageable pageable) {
-        return customerRepository.findAll(pageable);
+        Page<Customer> page = customerRepository.findAll(PageRequest.of(0, 10));
+        return page;
     }
 
     //search based on customer id
     @GetMapping("/customers/searchid")
     public ResponseEntity<Map<String, Object>> getAllCustomersID(
             @RequestParam(required = false) Long custID,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
+            @RequestParam(defaultValue = "0") int page
     ) {
         try {
             List<Customer> customerList = new ArrayList<Customer>();
-            Pageable paging = PageRequest.of(page, size);
+            Pageable paging = PageRequest.of(page, 10);
 
             Page<Customer> pageCust;
             if (custID == null)
@@ -79,6 +79,7 @@ public class BatchController {
             response.put("currentPage", pageCust.getNumber());
             response.put("totalItems", pageCust.getTotalElements());
             response.put("totalPages", pageCust.getTotalPages());
+            response.put("size", pageCust.getSize());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,12 +90,11 @@ public class BatchController {
     @GetMapping("/customers/searchdesc")
     public ResponseEntity<Map<String, Object>> getAllCustomersDesc(
             @RequestParam(required = false) String description,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
+            @RequestParam(defaultValue = "0") int page
     ) {
         try {
             List<Customer> customerList = new ArrayList<Customer>();
-            Pageable paging = PageRequest.of(page, size);
+            Pageable paging = PageRequest.of(page, 10);
 
             Page<Customer> pageCust;
             if (description == null)

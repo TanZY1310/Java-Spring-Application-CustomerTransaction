@@ -2,11 +2,11 @@
 const BASE_URL = "http://localhost:8080/batch/customers";
 
 // Pagination variables
-let currentPage = 0;
-let totalPages = 1;  // Initialize total pages as 1 to start
+//let currentPage = 0;
+//let totalPages = 1;  // Initialize total pages as 1 to start
 
 //Function to display all customer transactions
-async function displayAllCustomer(page = 0) {
+async function displayAllCustomer(page) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ''; // Clear previous results
     try {
@@ -15,7 +15,7 @@ async function displayAllCustomer(page = 0) {
 
         if (response.ok) {
             totalPages = data.totalPages; // Update total pages
-            currentPage = page;
+            currentPage = data.currentPage;
             updatePagination();
             displayResults(data.content);
         } else {
@@ -27,17 +27,17 @@ async function displayAllCustomer(page = 0) {
 }
 
 // Function to search by customer ID
-async function searchById(page = 0) {
+async function searchById(page) {
     const custID = document.getElementById('searchId').value;
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ''; // Clear previous results
     try {
-        const response = await fetch(`${BASE_URL}/searchid?custID=${custID}&page=${page}&size=3`);
+        const response = await fetch(`${BASE_URL}/searchid?custID=${custID}`);
         const data = await response.json();
 
         if (response.ok) {
             totalPages = data.totalPages; // Update total pages
-            currentPage = page;
+            currentPage = data.currentPage;
             updatePagination();
             displayResults(data.customers);
         } else {
@@ -49,17 +49,17 @@ async function searchById(page = 0) {
 }
 
 // Function to search by description
-async function searchByDescription(page = 0) {
+async function searchByDescription(page) {
     const description = document.getElementById('searchDescription').value;
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ''; // Clear previous results
     try {
-        const response = await fetch(`${BASE_URL}/searchdesc?description=${description}&page=${page}&size=3`);
+        const response = await fetch(`${BASE_URL}/searchdesc?description=${description}`);
         const data = await response.json();
 
         if (response.ok) {
             totalPages = data.totalPages; // Update total pages
-            currentPage = page;
+            currentPage = data.currentPage;
             updatePagination();
             displayResults(data.customers);
         } else {
@@ -80,9 +80,10 @@ function displayResults(customers) {
     }
 
     let table = '<table>';
-    table += '<tr><th>ID</th><th>Account Number</th><th>Description</th><th>Amount</th><th>Date</th><th>Time</th></tr>';
+    table += '<tr><th>Transaction ID</th><th>Customer ID</th><th>Account Number</th><th>Description</th><th>Amount</th><th>Date</th><th>Time</th></tr>';
     customers.forEach(customer => {
         table += `<tr>
+                    <td>${customer.trx_id}</td>
                     <td>${customer.custID}</td>
                     <td>${customer.acc_number}</td>
                     <td>${customer.description}</td>
